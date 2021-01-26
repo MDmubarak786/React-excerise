@@ -27,6 +27,7 @@ export default function PersonalPizza() {
           {option}
         </button>
       ))}
+      
       <p>Order a {selected.join(", ")} pizza</p>
     </div>
   );
