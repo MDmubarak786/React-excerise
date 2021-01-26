@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-
-export default function QuizNavBar({ questions }) {
-  const [questionIndex, setQuestionIndex] = useState(0);
-  
-  const goBack = () =>
-    setQuestionIndex((prevQuestionIndex) => prevQuestionIndex - 1);
-  const goToNext = () =>
-    setQuestionIndex((prevQuestionIndex) => prevQuestionIndex + 1);
-
-  const onFirstQuestion = questionIndex === 0;
-  const onLastQuestion = questionIndex === 4;
-
+import React, { useState } from "react";
+ 
+const options = ["Bell Pepper", "Sausage", "Pepperoni", "Pineapple"];
+ 
+export default function PersonalPizza() {
+  const [selected, setSelected] = useState([]);
+ 
+  const toggleTopping = ({target}) => {
+    const clickedTopping = target.value;
+    setSelected((prev) => {
+     // check if clicked topping is already selected
+      if (prev.includes(clickedTopping)) {
+        // filter the clicked topping out of state
+        return prev.filter(t => t !== clickedTopping);
+      } else {
+        // add the clicked topping to our state
+        return [clickedTopping, ...prev];
+      }
+    });
+  };
+ 
   return (
-    <nav>
-      <span>Question #{questionIndex + 1}</span>
-      <div>
-        <button onClick={goBack} disabled={onFirstQuestion}>
-          Go Back
+    <div>
+      {options.map(option => (
+        <button value={option} onClick={toggleTopping} key={option}>
+          {selected.includes(option) ? "Remove " : "Add "}
+          {option}
         </button>
-        <button onClick={goToNext} disabled={onLastQuestion}>
-          Next Question
-        </button>
-      </div>
-    </nav>
+      ))}
+      <p>Order a {selected.join(", ")} pizza</p>
+    </div>
   );
 }
